@@ -4,8 +4,20 @@
     <meta charset="UTF-8">
     <title>Hello World!</title>
     <style>
+    table#fileList {
+        background-color: white;
+    }
+    
+    td {
+        padding-right: 10px;
+    }
+    
+    td:hover {
+        background-color: grey;
+    }
+    
     div.CodeMirror {
-        height: 100%;
+        height: auto;
         width: 100%;
         font-size: 18px;
     }
@@ -16,16 +28,37 @@
     <script type="text/javascript" src="lib/mode/javascript/javascript.js"></script>
   </head>
   <body>
+    <table id="fileList" cellspacing="0">
+    <tr>
+      <td><a onclick="switchFile('File.a')">File.a</a></td>
+      <td><a onclick="switchFile('File.b')">File.b</a></td>
+    </tr>
+    </table>
+    <br/>
     <textarea class="CodeMirror" id="editor" height="100%" width="100%"></textarea>
   </body>
   <script>
     var editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
-        value: "function myScript(){return 100;}\n", 
+        value: "function myScript(){return 100;}\n",
         mode: "javascript",
         theme: "rubyblue",
         indentWithTabs: false,
         lineNumbers: true,
-        lineWrapping: true 
+        lineWrapping: true
     });
+    
+    const remote = require('electron').remote;
+    const Menu = remote.Menu;
+    const MenuItem = remote.MenuItem;
+
+    var contextmenu = new Menu();
+    contextmenu.append(new MenuItem({ label: 'Copy', click: function() { console.log('copy clicked'); } }));
+    contextmenu.append(new MenuItem({ label: 'Paste', click: function() { console.log('copy clicked'); } }));
+    contextmenu.append(new MenuItem({ type: 'separator' }));
+    contextmenu.append(new MenuItem({ label: 'Show Line Numbers', type: 'checkbox', checked: true, function() { editor.options.lineNumbers = this.checked; } }));
+    window.addEventListener('contextmenu', function (e) {
+        e.preventDefault();
+        contextmenu.popup(remote.getCurrentWindow());
+    }, false);
   </script>
 </html>
