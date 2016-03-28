@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Hello World!</title>
+    <style>
+    div.CodeMirror {
+        height: 100%;
+        width: 100%;
+        font-size: 18px;
+    }
+    </style>
+    <script src="lib/codemirror.js"></script>
+    <link rel="stylesheet" href="lib/codemirror.css">
+    <link rel="stylesheet" type="text/css" href="lib/theme/rubyblue.css">
+    <script type="text/javascript" src="lib/mode/javascript/javascript.js"></script>
+  </head>
+  <body>
+    <textarea class="CodeMirror" id="editor" height="100%" width="100%"></textarea>
+  </body>
+  <script>
+    var editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
+        value: "function myScript(){return 100;}\n", 
+        mode: "javascript",
+        theme: "rubyblue",
+        indentWithTabs: false,
+        lineNumbers: true,
+        lineWrapping: true 
+    });
+  </script>
+</html>
